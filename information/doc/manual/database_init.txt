@@ -1,0 +1,72 @@
+mysql -u root -p
+1234
+
+create database if not exists information default charset utf8 collate utf8_unicode_ci;
+
+use information;
+
+############################################################################
+For user 
+############################################################################
+drop table if exists user;
+
+create table user(id bigint unsigned primary key auto_increment,
+                  userName char(32) not null,
+                  password char(32) not null,
+                  nickyName char(32) null,
+                  email char(64) not null default 'email@email.com',
+                  phoneNum char(16) not null default '12345678901',
+                  weixinAcc char(64) not null default 'invalid',
+                  qqAcc char(64) not null default 'invalid',
+                  weiboAcc char(64) not null default 'invalid',
+                  isEmailActived tinyint default '0',
+                  isPhoneActived tinyint default '0');
+
+############################################################################
+For weibo
+############################################################################
+drop table if exists post;
+
+# post table
+create table post(id bigint unsigned primary key auto_increment,
+                  userName char(32) not null, 
+                  posts text, 
+                  time date);
+
+
+############################################################################
+For questionaire
+############################################################################
+# questionaire table
+create table questionaire(id bigint unsigned primary key auto_increment,
+                          userId bigint unsigned not null,
+                          title text,
+                          time date,
+                          foreign key(userId) references user(id));
+
+
+# question table
+create table question(id bigint unsigned primary key auto_increment,
+                      questionaireId bigint unsigned not null,
+                      question text,
+                      type enum('1','2','3'), 
+                      foreign key(questionaireId) references questionaire(id));
+
+# qItem table
+create table qItem(id bigint unsigned primary key auto_increment,
+                   questionId bigint unsigned not null,
+                   isOther tinyint default '0',
+                   item text,
+                   itemIndex enum('A','B','C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K'),
+                   foreign key(questionId) references question(id));
+
+# qAnswer table
+create table qAnswer(id bigint unsigned primary key auto_increment,
+                     questionId bigint unsigned not null,
+                     userId bigint unsigned not null,
+                     answerCho set('A','B','C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K'),
+                     answerStr text,
+                     answerOther text default null,
+                     time date,
+                     foreign key(questionId) references question(id),
+                     foreign key(userId) references user(id));
