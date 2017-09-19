@@ -6,13 +6,11 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var users = require('./routes/users');
-var wenyou = require('./routes/wenyou');
-var gameweb = require('./routes/gameweb');
 var session = require('express-session');
 var Settings = require('./lib/settings');
 var params = require('express-params');
 var partials = require('express-partials');
-var flash = require("connect-flash");
+//var flash = require("connect-flash");
 var MongoStore = require('connect-mongo');
 //var settings = require('../settings')
 
@@ -21,10 +19,11 @@ var app = express();
 
 params.extend(app);
 
-app.use(flash());
+//app.use(flash());
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
+//app.set('views', path.join(__dirname, 'views'));
+app.engine('.html', require('ejs').__express);  
 app.set('view engine', 'ejs');
 
 // uncomment after placing your favicon in /public
@@ -41,22 +40,9 @@ app.use(session({
 
 app.use(partials()); //这个一定要写在app.use(app.router)之前
 
-app.use(function(req, res, next){
-    console.log("app.usr local");
-    res.locals.user = req.session.user;
-    res.locals.post = req.session.post;
-    var error = req.flash('error');
-    res.locals.error = error.length ? error : null;
-
-    var success = req.flash('success');
-    res.locals.success = success.length ? success : null;
-    next();
-});
 
 app.use('/', routes);
 app.use('/users', users);
-app.use('/wenyou', wenyou);
-app.use('/gameweb', gameweb);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
