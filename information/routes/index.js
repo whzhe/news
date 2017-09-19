@@ -29,7 +29,8 @@ router.post('/edit',function(req, res, next)
 /* GET home page. */
 
 router.get('/', function(req, res, next) {
-        logger.info('This is an index page! -- log4js');
+        //logger.info('This is an index page! -- log4js');
+        res.render('index', { title: 'Express', layout: "layout" });
 });
 
 /*

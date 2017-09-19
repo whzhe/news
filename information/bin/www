@@ -7,7 +7,6 @@
 var app = require('../app');
 var debug = require('debug')('information:server');
 var http = require('http');
-var gamesrv = require('gamesrv');
 
 /**
  * Get port from environment and store in Express.
