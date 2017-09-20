@@ -5,6 +5,7 @@ var server = new mongodb.Server('localhost', 27107, {auto_reconnect:true});
 var db = new mongodb.Db('mydb', server, {safe:true});
 
 
+console.log("open db!");
 db.open(function(err,db){
     if(!err){
         console.log('connect db');
@@ -19,6 +20,7 @@ db.open(function(err,db){
     }
 });
 
+console.log("open db OK!");
 
 
 function send_result(res, type, retCode, errStr){
@@ -31,6 +33,7 @@ function send_result(res, type, retCode, errStr){
     res.send(JSON.stringify(ret));
 }
 function message_handle(req, res){      
+    console.log("start in message_handle");
     var message = req.body;
     //var msgType = message.type;
     var msgType = message.msgType;

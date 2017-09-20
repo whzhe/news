@@ -4,7 +4,7 @@ var crypto = require('crypto');
 //var User = require('../models/m_user.js');
 //var Post = require('../models/m_post.js');
 var news = require('news');
-var internel = require('internel');
+var internel = require('../control/internel');
 var edit = require('edit');
 
 ///////////whzhe add a news////////////////
@@ -12,16 +12,21 @@ var edit = require('edit');
 
 router.post('/news',function(req, res, next)
 {
+    console.log("start news.message_handle");
     news.message_handle(req, res);
 });
 
 router.post('/internel',function(req, res, next)
 {
+    console.log(req.body);
+    console.log("start internel.message_handle");
     internel.message_handle(req, res);
+    console.log("finish internel.message_handle");
 });
 
 router.post('/edit',function(req, res, next)
 {
+    console.log("start edit.message_handle");
     edit.message_handle(req, res);
 });
 
